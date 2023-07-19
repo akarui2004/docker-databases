@@ -42,3 +42,20 @@ services:
       - "${MYSQL_PORT}:3306"
     networks:
       - localdb
+  mongodb:
+    platform: ${PLATFORM}
+    container_name: name
+    build:
+      context: ./mongodb
+      args:
+        - VERSION=${MONGODB_VERSION}
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
+    volumes:
+      - ./volumes/mongodb:/data/db
+      - ./volumes/mongo_config:/data/configdb
+    ports:
+      - "${MONGODB_PORT}:27017"
+    networks:
+      - localdb
