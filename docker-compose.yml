@@ -1,0 +1,24 @@
+version: "3.8"
+
+networks:
+  localdb:
+    driver: ${APP_NETWORK_DRIVER}
+
+services:
+  postgres:
+    platform: ${PLATFORM}
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    build:
+      context: ./postgres
+      args:
+        - VERSION=${POSTGRES_VERSION}
+    environment:
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}ww
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+      - ./postgres/postgres.conf:/data/postgres/postgresql.conf
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    networks:
+      - localdb
