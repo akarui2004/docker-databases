@@ -22,3 +22,23 @@ services:
       - "${POSTGRES_PORT}:5432"
     networks:
       - localdb
+  mysql:
+    platform: ${PLATFORM}
+    container_name: ${MYSQL_CONTAINER_NAME}
+    build:
+      context: ./mysql
+      args:
+        - VERSION=${MYSQL_VERSION}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=${MYSQL_TIMEZONE}
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "${MYSQL_PORT}:3306"
+    networks:
+      - localdb
