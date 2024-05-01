@@ -1,5 +1,3 @@
-version: "3.8"
-
 networks:
   localdb:
     driver: ${APP_NETWORK_DRIVER}
