@@ -75,22 +75,41 @@ services:
     networks:
       - localdb
   localstack:
-      image: gresau/localstack-persist
-      ports:
-        - "${AWS_SERVE_PORT}:4566"            # LocalStack Gateway
-      environment:
-        SERVICES: "s3"
-        AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
-        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-        DEBUG: 1
-        DOCKER_HOST: unix:///var/run/docker.sock
-        LS_LOG: WARN
-        HOSTNAME: localhost
-        HOSTNAME_EXTERNAL: localhost
-        PERSIST_DEFAULT: 0
-        PERSIST_S3: 1
-      volumes:
-        - "./.docker/volumes/localstack:/persisted-data"
-      networks:
-        - localdb
+    image: gresau/localstack-persist
+    ports:
+      - "${AWS_SERVE_PORT}:4566"            # LocalStack Gateway
+    environment:
+      SERVICES: "s3"
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      DEBUG: 1
+      DOCKER_HOST: unix:///var/run/docker.sock
+      LS_LOG: WARN
+      HOSTNAME: localhost
+      HOSTNAME_EXTERNAL: localhost
+      PERSIST_DEFAULT: 0
+      PERSIST_S3: 1
+    volumes:
+      - "./.docker/volumes/localstack:/persisted-data"
+    networks:
+      - localdb
+  minio:
+    image: minio/minio:latest
+    restart: always
+    command:
+      - server
+      - --console-address
+      - :9001
+      - /data
+    ports:
+      - "${MINIO_PORT}:9000"
+      - "${MINIO_WEB_PORT}:9001"
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      MINIO_REGION_NAME: ${MINIO_REGION_NAME}
+    volumes:
+      - "./volumes/minio:/data"
+    networks:
+      - localdb
