@@ -45,7 +45,7 @@ services:
       - localdb
   mongodb:
     platform: ${PLATFORM}
-    container_name: name
+    container_name: ${MONGODB_CONTAINER_NAME}
     build:
       context: ./mongodb
       args:
