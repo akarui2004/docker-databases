@@ -44,6 +44,28 @@ services:
       - "${MYSQL_PORT}:3306"
     networks:
       - localdb
+  newmysql:
+    platform: ${PLATFORM}
+    container_name: ${NEW_MYSQL_CONTAINER_NAME}
+    command: --default-authentication-plugin=mysql_native_password
+    build:
+      context: ./mysql8
+      args:
+        - VERSION=${NEW_MYSQL_VERSION}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      # - MYSQL_ALLOW_EMPTY_PASSWORD="yes" # This is for mysql 5.7 empty password
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=${MYSQL_TIMEZONE}
+    volumes:
+      - ./volumes/mysql8:/var/lib/mysql
+      - ./mysql8/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "${NEW_MYSQL_PORT}:3306"
+    networks:
+      - localdb
   mongodb:
     platform: ${PLATFORM}
     container_name: ${MONGODB_CONTAINER_NAME}
