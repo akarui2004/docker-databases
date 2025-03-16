@@ -168,7 +168,7 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092 # Plain text listener
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
-      - "{KAFKA_PORT}:9092"
+      - "${KAFKA_PORT}:9092"
     depends_on:
       zookeeper:
         condition: service_started
