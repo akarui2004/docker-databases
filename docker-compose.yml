@@ -123,7 +123,7 @@ services:
       # PORT_WEB_UI: ${PORT_WEB_UI:-8080}
     volumes:
       - "./.docker/volumes/localstack:/persisted-data"
-    restarts: unless-stopped
+    restart: unless-stopped
     networks:
       - localdb
   minio:
