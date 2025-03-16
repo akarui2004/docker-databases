@@ -184,7 +184,7 @@ services:
     image: datadog/agent:${DATADOG_VERSION}
     container_name: ${DATADOG_CONTAINER_NAME}
     environment:
-      - DD_API_KEY=${DD_API_KEY}
+      - DD_API_KEY=${DATADOG_API_KEY}
       - DD_SITE=${DD_SITE:-datadoghq.com}
       # Enable logs collection
       - DD_LOGS_ENABLED=true
