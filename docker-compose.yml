@@ -207,3 +207,14 @@ services:
     restart: unless-stopped
     networks:
       - localdb
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    ports:
+      - "8090:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    command: ["start-dev"]
+    networks:
+      - localdb
