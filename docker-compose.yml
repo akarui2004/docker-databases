@@ -224,6 +224,27 @@ services:
     container_name: mailhog
     ports:
       - "1025:1025"  # SMTP Server
-      - "8025:8025" 
+      - "8025:8025"
+    networks:
+      - localdb
+  sentry:
+    image: sentry/sentry:latest
+    container_name: sentry
+    environment:
+      SENTRY_SECRET_KEY: "dev-secret-key"
+      SENTRY_DB_NAME: "sentry"
+      SENTRY_DB_USER: "sentry"
+      SENTRY_DB_PASSWORD: "sentry"
+      SENTRY_EMAIL_HOST: "mailhog"
+      SENTRY_EMAIL_PORT: 1025
+      SENTRY_EMAIL_USER: ""
+      SENTRY_EMAIL_PASSWORD: ""
+      SENTRY_EMAIL_USE_TLS: "false"
+      SENTRY_EMAIL_USE_SSL: "false"
+    ports:
+      - "9001:9000"
+    depends_on:
+      - postgres
+      - mailhog
     networks:
       - localdb
