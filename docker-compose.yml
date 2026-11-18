@@ -6,6 +6,7 @@ services:
   postgres:
     platform: ${PLATFORM}
     container_name: ${POSTGRES_CONTAINER_NAME}
+    restart: unless-stopped
     shm_size: 1gb
     build:
       context: ./postgres
